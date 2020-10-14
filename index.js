@@ -95,7 +95,7 @@ inquirer
       licenseDescription = "No license information available"
     }
   }
-
+//takes the rest of the input and appends to the readme
   function mainContent(response) {
 
     const content =     

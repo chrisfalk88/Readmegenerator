@@ -72,9 +72,9 @@ inquirer
     }
 
     const readme =
-      `# ${response.title}
-
-## Table of Contents 
+      `# ${response.title}`
++ `\n ![](https://img.shields.io/badge/license-${response.license}-green)`     
++`\n ## Table of Contents 
 * [Description](#description) 
 * [Installation](#installation) 
 * [Usage](#usage) \n* [License](#license) \n* [Contribution](#Contribution) \n* [Tests](#tests) \n* [Questions](#questions)` +

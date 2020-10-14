@@ -19,6 +19,7 @@
   "homepage": "https://github.com/chrisfalk88/readme_generator#readme",
   "dependencies": {
     "axios": "^0.20.0",
+    "badge-maker": "^3.3.0",
     "inquirer": "^7.3.3"
   }
 }

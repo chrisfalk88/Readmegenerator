@@ -2,7 +2,6 @@
 
 let fs = require("fs");
 let inquirer = require("inquirer");
-const axios = require("axios");
 
 let licenseDescription;
 
@@ -56,8 +55,33 @@ inquirer
     },
   ])
   .then(function (response) {
-    //responses.name write to file
 
+    printTitle(response);
+    hasLicense(response);
+    mainContent(response);
+
+  });
+
+//Creates readme file, writes title, checks for license value and writes badge
+  function printTitle(response) {
+    let title = 
+`# ${response.title}`;
+    fs.writeFile("README.md", title, (err) => {
+      if (err) throw err;
+      console.log("Readme created and title written to page");
+    })
+
+    if (response.license !== "Other") {
+      badge =  `\n ![](https://img.shields.io/badge/license-${response.license}-green)`
+
+      fs.appendFile("README.md", badge, (err) => {
+        if (err) throw err;
+        console.log("badge written to document");
+      })
+    }
+  }
+//checks license selections and assigns licenseDescription with correct description 
+  function hasLicense(response) {
     if (response.license === "Apache 2.0") {
       licenseDescription =
         "A permissive license whose main conditions require preservation of copyright and license notices.Contributors provide an express grant of patent rights. Licensed works, modifications, and larger works may be distributed under different terms and without source code";
@@ -70,25 +94,32 @@ inquirer
     } else {
       licenseDescription = "No license information available"
     }
+  }
 
-    const readme =
-      `# ${response.title}`
-+ `\n ![](https://img.shields.io/badge/license-${response.license}-green)`     
-+`\n ## Table of Contents 
-* [Description](#description) 
-* [Installation](#installation) 
-* [Usage](#usage) \n* [License](#license) \n* [Contribution](#Contribution) \n* [Tests](#tests) \n* [Questions](#questions)` +
-      `\n## Description \n${response.description}` +
-      `\n## Installation \n${response.installation}` +
-      `\n## Usage \n${response.usage}` +
-      `\n## Contributionv\n${response.contribution}` +
-      `\n## Tests \n${response.tests}` +
-      `\n## License \n${response.license}\n` +
-      `\n${licenseDescription}` +
-      `\n## Questions \n you can contact me directly for any questions you maybe have via email:  ${response.email}.
-    \nPlease visit my github page here: www.github.com/${response.github}`;
-    fs.writeFile("README.md", readme, (error) => {
-      if (error) throw error;
-      console.log("Readme Succesfully created");
-    });
-  });
+  function mainContent(response) {
+
+    const content =     
+    `\n ## Table of Contents 
+  * [Description](#description) 
+  * [Installation](#installation) 
+  * [Usage](#usage)
+  * [License](#license)
+  * [Contribution](#Contribution) \n
+  * [Tests](#tests)
+  * [Questions](#questions)` 
+  +
+  `\n## Description \n${response.description}` +
+  `\n## Installation \n${response.installation}` +
+  `\n## Usage \n${response.usage}` +
+  `\n## Contributionv\n${response.contribution}` +
+  `\n## Tests \n${response.tests}` +
+  `\n## License \n${response.license}\n` +
+  `\n${licenseDescription}` +
+  `\n## Questions \n you can contact me directly for any questions you maybe have via email:  ${response.email}.
+  \nPlease visit my github page here: www.github.com/${response.github}`;
+        
+    fs.appendFile("README.md", content, (err) => {
+      if (err) throw err;
+      console.log("Main content written to the page");
+    })
+  }
